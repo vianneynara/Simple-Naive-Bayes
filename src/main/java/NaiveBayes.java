@@ -16,6 +16,33 @@ public class NaiveBayes {
 		this.d = dataset;
 	}
 
+	public Result predict(Map<String, String> X, String yFeature, boolean printStats) {
+		Result result = infer(X, yFeature);
+
+		if (printStats) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("=".repeat(50)).append("\n");
+			sb.append("Singular probability P(X_i|C_i):").append("\n");
+			sb.append("Given X: ").append(X).append("\n");
+			result.probabilities().forEach((yValue, xProbabilities) -> {
+				sb.append("\t").append(yValue).append(":\n");
+				xProbabilities.forEach((xFeature, xProbability) -> {
+					sb.append("\t\t").append(String.format("%-20s", xFeature)).append(": ").append(String.format("%.4f", xProbability))
+						.append("\n");
+				});
+			});
+			sb.append("-".repeat(50)).append("\n");
+			result.predictions().forEach((yValue, yProbability) -> {
+				sb.append("\t").append(yValue).append(": ").append(String.format("%.4f", yProbability))
+					.append("\n");
+			});
+			sb.append("-".repeat(50)).append("\n");
+			System.out.print(sb.toString());
+		}
+
+		return result;
+	}
+
 	/**
 	 * Get the highest probability outcome of y (class/target feature) given X (features).
 	 *
