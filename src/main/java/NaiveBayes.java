@@ -127,18 +127,6 @@ public class NaiveBayes {
 		return result;
 	}
 
-	/**
-	 * Calculates probabilities for every value in a feature/column.
-	 * Uses the formula: P(X_i) = n_i/N
-	 *
-	 * @param feature The feature to compute.
-	 */
-	private Map<String, Double> computeProbabilities(String feature) {
-		Map<String, Double> probabilities = new HashMap<>();
-
-		return probabilities;
-	}
-
 	public Map<String, Map<String, Map<String, Integer>>> readCorrelations(String yFeature) {
 		return readCorrelations(this.d, yFeature);
 	}
