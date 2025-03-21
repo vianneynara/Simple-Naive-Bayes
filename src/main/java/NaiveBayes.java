@@ -32,10 +32,41 @@ public class NaiveBayes {
 	 * @param yFeature Target or classification feature. Example: {@code "buys_computer"}
 	 * @return Value-Probability map in y.
 	 */
-	public Map<String, Double> predict(Map<String, String> X, String yFeature) {
-		Map<String, Double> predictions = new HashMap<>();
+	public Result infer(Map<String, String> X, String yFeature) {
+		if (X == null || X.size() != d.metadata().size() - 1) {
+			throw new IllegalArgumentException("X should be the same size as the dataset's features - 1.");
+		}
 
-		return predictions;
+		// probability tracker for each feature
+		Map<String, Map<String, Double>> probabilities = new HashMap<>();
+		// (outcome - probability) pair
+		Map<String, Double> predictions = new HashMap<>();
+		var yCorrelations = readCorrelations(yFeature);
+
+		for (var yValue : d.metadata().get(yFeature).keySet()) {
+			/* computing probabilities for every event for every X feature given y */
+			probabilities.put(yValue, new HashMap<>());
+			for (int i = 0; i < d.headers().size(); i++) {
+				if (d.headers().get(i).equals(yFeature)) {
+					continue;
+				}
+
+				String xFeature = d.headers().get(i);
+//				System.out.printf("Computing Probability for (yCorrelation, %s, %s, %s, %s)%n", xFeature, X.get(xFeature), yFeature, yValue);
+				double eventProbability = computeProbability(yCorrelations, xFeature, X.get(xFeature), yFeature, yValue);
+				probabilities.get(yValue).put(xFeature, eventProbability);
+			}
+
+			/* compute predictions */
+			double totalProbability = 1.0;
+			for (var probability : probabilities.get(yValue).values()) {
+				totalProbability *= probability;
+			}
+			double yProbability = d.metadata().get(yFeature).get(yValue) / (d.data().size() * 1.0);
+			predictions.put(yValue, totalProbability * yProbability);
+		}
+
+		return Result.of(probabilities, predictions);
 	}
 
 	/**
