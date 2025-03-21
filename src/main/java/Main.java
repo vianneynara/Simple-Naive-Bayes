@@ -1,13 +1,12 @@
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class Main {
 
-	public static void main(String[] args) {
-		String pathToDatset = ClassLoader.getSystemClassLoader().getResource("dataset.txt").getPath();
-
+	public static void test() {
 		CSVReader reader = new CSVReader();
-
-		Dataset dataset = reader.readCSV(pathToDatset);
+		String pathToDataset = getPathToFile("dataset.txt");
+		Dataset dataset = reader.readCSV(pathToDataset);
 
 //		// print the dataset metadata
 //		for (var feature : dataset.metadata().entrySet()) {
@@ -51,7 +50,7 @@ public class Main {
 			"student", "no",
 			"credit_rating", "excellent",
 			"buys_computer", "no"
-			);
+		);
 		String target = "income";
 		Result result = nb.predict(X, target, true);
 		System.out.printf("Prediction Result (%s): %s (%.4f) [%.2f%%]",
@@ -59,5 +58,20 @@ public class Main {
 			result.classification(),
 			result.predictions().get(result.classification()),
 			result.normalizedPredictions().get(result.classification()) * 100);
+	}
+
+	private static String getPathToFile(String fileName) {
+		String pathToDataset;
+		try {
+			pathToDataset = ClassLoader.getSystemClassLoader().getResource(fileName).getPath();
+		} catch (NullPointerException npe) {
+			String currentDir = System.getProperty("user.dir");
+			pathToDataset = Paths.get(currentDir, fileName).toString();
+		}
+		return pathToDataset;
+	}
+
+	public static void main(String[] args) {
+		test();
 	}
 }
