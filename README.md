@@ -6,7 +6,7 @@ Continuous data compatibility is not guaranteed. Will use Gaussian Naive Bayes i
 ## Running With Gradle
 
 ```
-gradle build --scan
+gradle runApp
 ```
 
 ## Running Without Gradle

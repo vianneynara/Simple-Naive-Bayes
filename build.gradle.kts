@@ -17,3 +17,10 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+// Runner
+tasks.register<JavaExec>("runApp") {
+    group = "application"
+    mainClass.set("Main")
+    classpath = sourceSets["main"].runtimeClasspath
+}
