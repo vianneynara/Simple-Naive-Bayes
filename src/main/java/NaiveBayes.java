@@ -139,4 +139,18 @@ public class NaiveBayes {
 
 		return yCorrelations;
 	}
+
+	public static String getHighestProbability(Map<String, Double> predictions) {
+		double highestPrediction = 0.0;
+		String highestPredictionClass = "";
+
+		for (var entry : predictions.entrySet()) {
+			if (entry.getValue() > highestPrediction) {
+				highestPrediction = entry.getValue();
+				highestPredictionClass = entry.getKey();
+			}
+		}
+
+		return highestPredictionClass;
+	}
 }
