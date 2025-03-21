@@ -32,8 +32,10 @@ public class NaiveBayes {
 				});
 			});
 			sb.append("-".repeat(50)).append("\n");
+			sb.append("Predictions:").append("\n");
 			result.predictions().forEach((yValue, yProbability) -> {
-				sb.append("\t").append(yValue).append(": ").append(String.format("%.4f", yProbability))
+				sb.append("\t\t").append(String.format("%-20s", yValue)).append(": ").append(String.format("%.4f", yProbability))
+					.append(String.format(" [%.2f%%]", result.normalizedPredictions().get(yValue) * 100))
 					.append("\n");
 			});
 			sb.append("-".repeat(50)).append("\n");
