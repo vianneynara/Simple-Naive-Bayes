@@ -48,13 +48,13 @@ public class Main {
 //		);
 		Map<String, String> X = Map.of(
 			"age", ">40",
-			"income", "medium",
 			"student", "no",
-			"credit_rating", "excellent"
-		);
-		String target = "buys_computer";
+			"credit_rating", "excellent",
+			"buys_computer", "no"
+			);
+		String target = "income";
 		Result result = nb.predict(X, target, true);
-		System.out.printf("Prediction Result (%s): %s (%.2f) [%.2f%%]",
+		System.out.printf("Prediction Result (%s): %s (%.4f) [%.2f%%]",
 			target,
 			result.classification(),
 			result.predictions().get(result.classification()),
