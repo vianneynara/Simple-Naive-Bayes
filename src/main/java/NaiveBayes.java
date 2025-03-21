@@ -119,9 +119,12 @@ public class NaiveBayes {
 		int xDistinctSize = d.metadata().get(xFeature).size();
 		// (len(x_i) + 1) / (len(y_i) + |x|)
 		// (x value's given y value's occurrences + 1) / (dataset size + x distinct size)
-		int eventOccurrence = yCorrelations.get(yValue).get(xFeature).get(xValue);
-		System.out.printf("Computing: (%s + 1) / (%d + %d) %n", eventOccurrence, yValueCount, xDistinctSize);
-		return (eventOccurrence + 1) / ((yValueCount + xDistinctSize) * 1.0);
+//		System.out.println("occurrence: " +
+		// defaults not found with 0, else, you'll get NPE
+		int eventOccurrence = yCorrelations.get(yValue).get(xFeature).getOrDefault(xValue, 0);
+		double result = (eventOccurrence + 1) / ((yValueCount + xDistinctSize) * 1.0);
+//		System.out.printf("Computing: (%s + 1) / (%d + %d) = %.4f %n", eventOccurrence, yValueCount, xDistinctSize, result);
+		return result;
 	}
 
 	/**
