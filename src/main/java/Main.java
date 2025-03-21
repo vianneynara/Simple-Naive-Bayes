@@ -34,5 +34,8 @@ public class Main {
 			}
 			System.out.println("=".repeat(50));
 		}
+
+		double probability = nb.computeProbability(yCorrelations, "age", "31...40", "buys_computer", "yes");
+		System.out.printf("Probability: %.4f", probability);
 	}
 }
