@@ -23,13 +23,13 @@ public class NaiveBayes {
 	 *                 The Key is the feature, the value is the value of the input. Example:
 	 *                 <pre>
 	 *                              {@code
-	 *                          	  age : "31...40"
-	 *                          	  income : "low"
-	 *                          	  student : "no"
-	 *                          	  credit_rating : "fair"
+	 *                          	  "age" : "31...40"
+	 *                          	  "income" : "low"
+	 *                          	  "student" : "no"
+	 *                          	  "credit_rating" : "fair"
 	 *                              }
 	 *                          </pre>
-	 * @param yFeature Target or classification feature.
+	 * @param yFeature Target or classification feature. Example: {@code "buys_computer"}
 	 * @return Value-Probability map in y.
 	 */
 	public Map<String, Double> predict(Map<String, String> X, String yFeature) {
@@ -40,8 +40,10 @@ public class NaiveBayes {
 
 	/**
 	 * Calculates probability from the dataset given xFeature's value of xValue and yFeature's value of yValue.
-	 * Uses the formula: P(X | C_i)
+	 * <p>Uses the formula: {@code P(X | C_i)}</p>
+	 * This also computes with Laplacian Correction to avoid zero probabilities.
 	 *
+	 * @param yCorrelations Correlation mapping
 	 * @param xFeature Input feature
 	 * @param xValue   Input value
 	 * @param yFeature Condition feature
@@ -70,7 +72,6 @@ public class NaiveBayes {
 
 	/**
 	 * Correlation map is the occurence frequency of x (feature-value) given y (feature-value).
-	 * This also computes with Laplacian Correction to avoid zero probabilities.
 	 */
 	public Map<String, Map<String, Map<String, Integer>>> readCorrelations(Dataset dataset, String yFeature) {
 		/*
