@@ -43,7 +43,7 @@ public class CSVReader {
 				// split the values
 				String[] values = currLine.split(separator);
 
-				System.out.printf("Reading line %d : %s %n", ++counter, Arrays.toString(values)); // debug
+				System.out.printf("Reading line %3d : %s %n", ++counter, Arrays.toString(values)); // debug
 
 				// read first line
 				if (!skippedFirstLine) {
