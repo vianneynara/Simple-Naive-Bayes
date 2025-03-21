@@ -50,8 +50,20 @@ public class NaiveBayes {
 	 * @param yValue   Condition value
 	 * @return double Probability of happening.
 	 */
-	private double computeProbability(String xFeature, String xValue, String yFeature, String yValue) {
-		return 0.0;
+	public double computeProbability(
+		Map<String, Map<String, Map<String, Integer>>> yCorrelations,
+		String xFeature,
+		String xValue,
+		String yFeature,
+		String yValue
+	) {
+		int yValueCount = d.metadata().get(yFeature).get(yValue);
+		int xDistinctSize = d.metadata().get(xFeature).size();
+		// (len(x_i) + 1) / (len(y_i) + |x|)
+		// (x value's given y value's occurrences + 1) / (dataset size + x distinct size)
+		int eventOccurrence = yCorrelations.get(yValue).get(xFeature).get(xValue);
+		System.out.printf("Computing: (%s + 1) / (%d + %d) %n", eventOccurrence, yValueCount, xDistinctSize);
+		return (eventOccurrence + 1) / ((yValueCount + xDistinctSize) * 1.0);
 	}
 
 	/**
