@@ -40,15 +40,24 @@ public class Main {
 
 		/* The actual test based on manual calculation */
 
+//		Map<String, String> X = Map.of(
+//			"age", "31...40",
+//			"income", "low",
+//			"student", "no",
+//			"credit_rating", "fair"
+//		);
 		Map<String, String> X = Map.of(
-			"age", "31...40",
-			"income", "low",
+			"age", ">40",
+			"income", "medium",
 			"student", "no",
-			"credit_rating", "fair"
+			"credit_rating", "excellent"
 		);
 		String target = "buys_computer";
 		Result result = nb.predict(X, target, true);
-		System.out.printf("Classification (%s): %s (%.2f %%)",
-			target, result.classification(), result.predictions().get(result.classification()) * 100);
+		System.out.printf("Prediction Result (%s): %s (%.2f) [%.2f%%]",
+			target,
+			result.classification(),
+			result.predictions().get(result.classification()),
+			result.normalizedPredictions().get(result.classification()) * 100);
 	}
 }
