@@ -22,13 +22,13 @@ public class NaiveBayes {
 	 * @param X        Input values that matches `len(N) - 1` length of the dataset.
 	 *                 The Key is the feature, the value is the value of the input. Example:
 	 *                 <pre>
-	 *                              {@code
-	 *                          	  "age" : "31...40"
-	 *                          	  "income" : "low"
-	 *                          	  "student" : "no"
-	 *                          	  "credit_rating" : "fair"
-	 *                              }
-	 *                          </pre>
+	 *                      {@code
+	 *                        "age" : "31...40"
+	 *                        "income" : "low"
+	 *                        "student" : "no"
+	 *                        "credit_rating" : "fair"
+	 *                      }
+	 *                 </pre>
 	 * @param yFeature Target or classification feature. Example: {@code "buys_computer"}
 	 * @return Value-Probability map in y.
 	 */
@@ -44,10 +44,10 @@ public class NaiveBayes {
 	 * This also computes with Laplacian Correction to avoid zero probabilities.
 	 *
 	 * @param yCorrelations Correlation mapping
-	 * @param xFeature Input feature
-	 * @param xValue   Input value
-	 * @param yFeature Condition feature
-	 * @param yValue   Condition value
+	 * @param xFeature      Input feature
+	 * @param xValue        Input value
+	 * @param yFeature      Condition feature
+	 * @param yValue        Condition value
 	 * @return double Probability of happening.
 	 */
 	public double computeProbability(
