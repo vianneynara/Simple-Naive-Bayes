@@ -218,6 +218,7 @@ public class NaiveBayes {
 			System.out.print("Select Target (y): ");
 			target = sc.nextLine().trim();
 		} while (!d.features().contains(target));
+		System.out.println("-".repeat(50));
 
 		/* Taking X values */
 		Map<String, String> X = new HashMap<>();
