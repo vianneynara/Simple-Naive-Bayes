@@ -4,22 +4,7 @@ import java.util.Map;
 public class Main {
 
 	public static void test() {
-		CSVReader reader = new CSVReader();
-		String pathToDataset = getPathToFile("dataset.txt");
-		Dataset dataset = reader.readCSV(pathToDataset);
-
-//		// print the dataset metadata
-//		for (var feature : dataset.metadata().entrySet()) {
-//			System.out.println("Feature: " + feature.getKey());
-//			for (var frequencyEntry : feature.getValue().entrySet()) {
-//				System.out.printf("%12s : %d %n", frequencyEntry.getKey(), frequencyEntry.getValue());
-//			}
-//			System.out.println("=".repeat(50));
-//		}
-//
-//		System.out.println("\n".repeat(3));
-//
-		NaiveBayes nb = new NaiveBayes(dataset);
+		NaiveBayes nb = initializeNaiveBayes();
 //
 //		// print the correlations
 //		Map<String, Map<String, Map<String, Integer>>> yCorrelations = nb.readCorrelations("buys_computer");
@@ -71,7 +56,31 @@ public class Main {
 		return pathToDataset;
 	}
 
+	public static NaiveBayes initializeNaiveBayes() {
+		CSVReader reader = new CSVReader();
+		String pathToDataset = getPathToFile("dataset.txt");
+//		// print the dataset metadata
+//		for (var feature : dataset.metadata().entrySet()) {
+//			System.out.println("Feature: " + feature.getKey());
+//			for (var frequencyEntry : feature.getValue().entrySet()) {
+//				System.out.printf("%12s : %d %n", frequencyEntry.getKey(), frequencyEntry.getValue());
+//			}
+//			System.out.println("=".repeat(50));
+//		}
+//
+//		System.out.println("\n".repeat(3));
+//
+		Dataset dataset = reader.readCSV(pathToDataset);
+		return new NaiveBayes(dataset);
+	}
+
+	public static void testInput() {
+		NaiveBayes nb = initializeNaiveBayes();
+		nb.takeInput();
+	}
+
 	public static void main(String[] args) {
-		test();
+//		test();
+		testInput();
 	}
 }
