@@ -51,14 +51,14 @@ public class CSVReader {
 					if (hasHeader) {
 						// use original header
 						for (String value : values) {
-							d.headers().add(value);
+							d.features().add(value);
 							d.metadata().put(value, new HashMap<>());
 						}
 						continue;
 					} else {
 						// create numberede header
 						for (int i = 0; i < values.length; i++) {
-							d.headers().add(String.valueOf(i));
+							d.features().add(String.valueOf(i));
 							d.metadata().put(String.valueOf(i), new HashMap<>());
 						}
 					}
@@ -68,9 +68,9 @@ public class CSVReader {
 
 				// process each values to the metadata.
 				// get the feature, then count up for the value encountered
-				for (int i = 0; i < d.headers().size(); i++) {
+				for (int i = 0; i < d.features().size(); i++) {
 					// get the feature's value-frequency holder
-					Map<String, Integer> feature = d.metadata().get(d.headers().get(i));
+					Map<String, Integer> feature = d.metadata().get(d.features().get(i));
 
 					// get the value of the last row inserted (current row)
 					final String label = d.data().getLast().get(i);

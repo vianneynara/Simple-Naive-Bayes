@@ -1,4 +1,3 @@
-import javax.sound.midi.SysexMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,12 +76,12 @@ public class NaiveBayes {
 		for (var yValue : d.metadata().get(yFeature).keySet()) {
 			/* computing probabilities for every event for every X feature given y */
 			probabilities.put(yValue, new HashMap<>());
-			for (int i = 0; i < d.headers().size(); i++) {
-				if (d.headers().get(i).equals(yFeature)) {
+			for (int i = 0; i < d.features().size(); i++) {
+				if (d.features().get(i).equals(yFeature)) {
 					continue;
 				}
 
-				String xFeature = d.headers().get(i);
+				String xFeature = d.features().get(i);
 //				System.out.printf("Computing Probability for (yCorrelation, %s, %s, %s, %s)%n", xFeature, X.get(xFeature), yFeature, yValue);
 				double eventProbability = computeProbability(yCorrelations, xFeature, X.get(xFeature), yFeature, yValue);
 				probabilities.get(yValue).put(xFeature, eventProbability);
@@ -154,8 +153,8 @@ public class NaiveBayes {
 		Map<String, Map<String, Map<String, Integer>>> yCorrelations = new HashMap<>();
 
 		int yIndex = -1;
-		for (int i = 0; i < dataset.headers().size(); i++) {
-			if (dataset.headers().get(i).equals(yFeature)) {
+		for (int i = 0; i < dataset.features().size(); i++) {
+			if (dataset.features().get(i).equals(yFeature)) {
 				yIndex = i;
 				break;
 			}
@@ -166,11 +165,11 @@ public class NaiveBayes {
 			yCorrelations.put(value, new HashMap<>());
 
 			// insert X features as keys
-			for (int i = 0; i < dataset.headers().size(); i++) {
-				if (dataset.headers().get(i).equals(yFeature)) {
+			for (int i = 0; i < dataset.features().size(); i++) {
+				if (dataset.features().get(i).equals(yFeature)) {
 					continue;
 				}
-				yCorrelations.get(value).put(dataset.headers().get(i), new HashMap<>());
+				yCorrelations.get(value).put(dataset.features().get(i), new HashMap<>());
 			}
 		}
 
@@ -178,13 +177,13 @@ public class NaiveBayes {
 		for (List<String> row : dataset.data()) {
 			// iterating each value in the line
 			String currYValue = row.get(yIndex);
-			for (int i = 0; i < dataset.headers().size(); i++) {
+			for (int i = 0; i < dataset.features().size(); i++) {
 				if (i == yIndex) {
 					continue;
 				}
 
 				String currXValue = row.get(i);
-				String currXFeature = dataset.headers().get(i);
+				String currXFeature = dataset.features().get(i);
 				int prevXOccurrence = yCorrelations.get(currYValue).get(currXFeature).getOrDefault(currXValue, 0);
 				yCorrelations.get(currYValue).get(currXFeature).put(currXValue, ++prevXOccurrence);
 			}
@@ -212,17 +211,17 @@ public class NaiveBayes {
 		String target;
 
 		System.out.println("=".repeat(50));
-		System.out.println("Available columns/feature: " + this.d.headers());
+		System.out.println("Available columns/feature: " + this.d.features());
 
 		/* Take feature target/classification target */
 		do {
 			System.out.print("Select Target (y): ");
 			target = sc.nextLine().trim();
-		} while (!d.headers().contains(target));
+		} while (!d.features().contains(target));
 
 		/* Taking X values */
 		Map<String, String> X = new HashMap<>();
-		for (String feature : this.d.headers()) {
+		for (String feature : this.d.features()) {
 			if (!feature.equals(target)) {
 				System.out.printf("Value of [%s]: ", feature);
 				String x_i = "";
