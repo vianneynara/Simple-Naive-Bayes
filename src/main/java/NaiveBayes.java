@@ -1,6 +1,8 @@
+import javax.sound.midi.SysexMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Simple Naive Bayes probability calculator for a given Dataset.
@@ -51,13 +53,13 @@ public class NaiveBayes {
 	 * @param X        Input values that matches `len(N) - 1` length of the dataset.
 	 *                 The Key is the feature, the value is the value of the input. Example:
 	 *                 <pre>
-	 *                      {@code
-	 *                        "age" : "31...40"
-	 *                        "income" : "low"
-	 *                        "student" : "no"
-	 *                        "credit_rating" : "fair"
-	 *                      }
-	 *                 </pre>
+	 *                                                      {@code
+	 *                                                        "age" : "31...40"
+	 *                                                        "income" : "low"
+	 *                                                        "student" : "no"
+	 *                                                        "credit_rating" : "fair"
+	 *                                                      }
+	 *                                                 </pre>
 	 * @param yFeature Target or classification feature. Example: {@code "buys_computer"}
 	 * @return Value-Probability map in y.
 	 */
@@ -203,5 +205,34 @@ public class NaiveBayes {
 		}
 
 		return highestPredictionClass;
+	}
+
+	public Result takeInput() {
+		Scanner sc = new Scanner(System.in);
+		String target;
+
+		System.out.println("=".repeat(50));
+		System.out.println("Available columns/feature: " + this.d.headers());
+
+		/* Take feature target/classification target */
+		do {
+			System.out.print("Select Target (y): ");
+			target = sc.nextLine().trim();
+		} while (!d.headers().contains(target));
+
+		/* Taking X values */
+		Map<String, String> X = new HashMap<>();
+		for (String feature : this.d.headers()) {
+			if (!feature.equals(target)) {
+				System.out.printf("Value of [%s]: ", feature);
+				String x_i = "";
+				do {
+					x_i = sc.nextLine();
+					X.put(feature, x_i);
+				} while (x_i.isEmpty());
+			}
+		}
+
+		return predict(X, target, true);
 	}
 }
